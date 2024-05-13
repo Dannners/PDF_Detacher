@@ -1,4 +1,5 @@
 import sys, zlib
+
 def main(fn):
     data = open(fn, 'rb').read()
     i = 0
@@ -10,13 +11,17 @@ def main(fn):
             break
         i += 10
         try:
-            last = cdata = zlib.decompress(data[i:])
-            if first:
-                first = False
-            else:
-                pass#print cdata
+            cdata = zlib.decompress(data[i:])
+            if cdata is not None:
+                last = cdata
+                if first:
+                    first = False
+                else:
+                    pass#print cdata
         except:
             pass
-    print(last.decode('utf-8'))
+    if last is not None:
+        print(last.decode('utf-8'))
+
 if __name__=='__main__':
     main(*sys.argv[1:])
